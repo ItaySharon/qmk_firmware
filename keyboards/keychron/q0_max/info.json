@@ -1,10 +1,11 @@
 {
     "keyboard_name": "Keychron Q0 Max",
     "manufacturer": "Keychron",
-    "url": "https://github.com/Keychron",
-    "maintainer": "Joe",
+    "url": "https://github.com/ItaySharon",
+    "maintainer": "Joe, ItaySharon",
     "processor": "STM32F401",
     "bootloader": "stm32-dfu",
+    "bootloader_instructions": "Press circle while powering on",
     "usb": {
         "vid": "0x3434"
     },
