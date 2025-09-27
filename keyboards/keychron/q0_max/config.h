@@ -16,9 +16,44 @@
 
 #pragma once
 
+// #include "q0_max_layers.h"
+
 /* Encoder Configuration */
 #define ENCODER_DEFAULT_POS 0x3
 #define ENCODER_MAP_KEY_DELAY 2
+
+// Enable if need more layers
+#define Q0_MAX_EXTENDED_LAYERS
+
+#ifdef Q0_MAX_EXTENDED_LAYERS
+# define Q0_MAX_EXTENDED_LAYERS_X1
+# define Q0_MAX_EXTENDED_LAYERS_X2
+// # define Q0_MAX_EXTENDED_LAYERS_X3
+// # define Q0_MAX_EXTENDED_LAYERS_X4
+# define Q0_MAX_EXTENDED_LAYERS_AMOUNT (2)
+#else
+# define Q0_MAX_EXTENDED_LAYERS_AMOUNT (0)
+#endif
+
+#define Q0_MAX_HYPER_LAYERS_AMOUNT (0)
+#define Q0_MAX_NORMAL_LAYERS_AMOUNT (4 + Q0_MAX_HYPER_LAYERS_AMOUNT * 5)
+#define Q0_MAX_SYSTEM_LAYERS_AMOUNT (2)
+
+#define DYNAMIC_KEYMAP_LAYER_COUNT (Q0_MAX_SYSTEM_LAYERS_AMOUNT + Q0_MAX_NORMAL_LAYERS_AMOUNT + Q0_MAX_EXTENDED_LAYERS_AMOUNT)
+
+#define Q0_MAX_RGBS_PER_LAYER
+#define Q0_MAX_RGBS_PER_LAYER_MODES {   \
+        [BASE] = RGB_MATRIX_FALLBACK,   \
+        [L1] = RGB_MATRIX_SPLASH,       \
+        [L2] = RGB_MATRIX_SPLASH,       \
+        [L3] = RGB_MATRIX_SPLASH,       \
+        [L4] = RGB_MATRIX_SPLASH        \
+}
+
+#define SECURE_IDLE_TIMEOUT 0
+#ifdef SECURE_ENABLE
+# include "secrets.h"
+#endif
 
 #ifdef LK_WIRELESS_ENABLE
 /* Hardware configuration */
@@ -37,7 +72,7 @@
 
 #    define BT_HOST_DEVICES_COUNT 3
 
-#    if defined(RGB_MATRIX_ENABLE) 
+#    if defined(RGB_MATRIX_ENABLE)
 
 #        define LED_DRIVER_SHUTDOWN_PIN A2
 
@@ -75,7 +110,7 @@
 #define FN_KEY_1 MO(1)
 #define FN_BL_TRIG_KEY  KC_PMNS
 
-#define BL_CYCLE_KEY    KC_MPLY   
+#define BL_CYCLE_KEY    KC_MPLY
 #define FN_Z_KEY        RGB_SAD
 #define FN_J_KEY        RGB_HUD
 

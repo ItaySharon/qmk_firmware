@@ -63,16 +63,34 @@ void secure_keypress_event(uint8_t row, uint8_t col) {
     static const uint8_t sequence_len  = ARRAY_SIZE(sequence);
 
     static uint8_t offset = 0;
-    if ((sequence[offset][0] == row) && (sequence[offset][1] == col)) {
-        offset++;
-        if (offset == sequence_len) {
-            offset = 0;
+    static uint8_t is_okay = 0xff;
+
+    is_okay &= (sequence[offset][0] == row);
+    is_okay &= (sequence[offset][1] == col);
+
+    offset++;
+
+    if (offset == sequence_len) {
+        offset = 0;
+        if (is_okay)
+        {
             secure_unlock();
         }
-    } else {
+        else
+        {
+            secure_lock();
+        }
+        is_okay = 0xff;
+    }
+
+#ifdef SECURE_WEAK
+    if (!is_okay)
+    {
         offset = 0;
+        is_okay = 0xff;
         secure_lock();
     }
+#endif
 }
 
 void secure_task(void) {

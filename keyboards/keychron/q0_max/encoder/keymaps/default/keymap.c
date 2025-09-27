@@ -16,13 +16,8 @@
 
 #include QMK_KEYBOARD_H
 #include "keychron_common.h"
+#include "q0_max_layers.h"
 
-enum layers {
-    BASE,
-    FN,
-    L2,
-    L3,
-};
 // clang-format off
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [BASE] = LAYOUT_tenkey_27(

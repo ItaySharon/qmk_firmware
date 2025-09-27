@@ -73,13 +73,12 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         DF(L4),  KC_P1,   KC_P2,   KC_P3,   KC_M,
         DF(BASE),KC_P0,            KC_PDOT          ),
 
-    // Programming
     [L2] = LAYOUT_tenkey_27(
-        _______, KC_F16,  KC_F17,  KC_F18,  KC_F19,
-        DF(L1),  _______, _______, _______, G(KC_DOT),
-        MX2,     _______, _______, _______, KC_F13,
+        _______, _______, _______, _______, _______,
+        DF(L1),  _______, _______, _______, _______,
+        MX2,     _______, _______, _______, _______,
         DF(L3),  _______, _______, _______,
-        DF(L4),  _______, _______, _______, G(KC_R),
+        DF(L4),  _______, _______, _______, _______,
         DF(BASE),_______,          _______          ),
 
     [L3] = LAYOUT_tenkey_27(
@@ -90,12 +89,13 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         DF(L4),  _______, _______, _______, _______,
         DF(BASE),_______,          _______          ),
 
+    // Programming
     [L4] = LAYOUT_tenkey_27(
-        _______, _______, _______, _______, _______,
-        DF(L1),  _______, _______, _______, _______,
-        DF(L2),  _______, _______, _______, _______,
+        _______, KC_F16,  KC_F17,  KC_F18,  KC_F19,
+        DF(L1),  _______, _______, _______, G(KC_DOT),
+        DF(L2),  _______, _______, _______, KC_F13,
         DF(L3),  _______, _______, _______,
-        MX4,     _______, _______, _______, _______,
+        MX4,     _______, _______, _______, G(KC_R),
         DF(BASE),_______,          _______          ),
 
 #ifdef Q0_MAX_EXTENDED_LAYERS
@@ -112,9 +112,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 # ifdef Q0_MAX_EXTENDED_LAYERS_X2
     [X2] = LAYOUT_tenkey_27(
-        _______, S(KC_F16), S(KC_F17), S(KC_F18), S(KC_F19),
         _______, _______, _______, _______, _______,
-        _______, _______, _______, _______, S(KC_F13),
+        _______, _______, _______, _______, _______,
+        _______, _______, _______, _______, _______,
         _______, _______, _______, _______,
         _______, _______, _______, _______, _______,
         _______, _______,          _______          ),
@@ -183,8 +183,6 @@ const uint16_t PROGMEM encoder_map[][NUM_ENCODERS][2] = {
 
 #ifdef RGB_MATRIX_ENABLE
 
-
-
 enum modes {
     MODE__DISABLED,
     MODE__ACTIVE,
@@ -194,7 +192,6 @@ enum modes {
 };
 bool rgb_matrix_indicators_user(void) {
     uint8_t indicators[] = Q0_MAX_LAYER_INDICATOR_LEDS;
-    uint8_t hyperlayers[] = Q0_MAX_HYPER_LAYER_COLOUR;
     enum modes default_mode = MODE__DISABLED;
 
 #ifdef SECURE_ENABLE
@@ -217,7 +214,7 @@ bool rgb_matrix_indicators_user(void) {
     }
 #endif
 
-    for ( uint8_t i = 0; i < ARRAY_SIZE(indicators) * ARRAY_SIZE(hyperlayers); ++i )
+    for ( uint8_t i = 0; i < ARRAY_SIZE(indicators); ++i )
     {
         uint8_t rgb[RGB_MAX] = {0};
         enum modes mode = default_mode;
@@ -232,12 +229,12 @@ bool rgb_matrix_indicators_user(void) {
 #ifdef Q0_MAX_EXTENDED_LAYERS
             case MODE__EXTENDED:
                 rgb[RGB_R] = 255;
-                rgb[RGB_G] = 255;
+                // rgb[RGB_G] = 255;
                 rgb[RGB_B] = 255;
-                break;
+                // FALLTHROUGH
 #endif
             case MODE__ACTIVE:
-                rgb[hyperlayers[i / (ARRAY_SIZE(indicators))]] = 255;
+                rgb[RGB_G] = 255;
                 break;
             default:
                 break;
